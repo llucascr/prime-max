@@ -1,0 +1,5 @@
+name: Pull Requests (PR)
+
+on:
+  push:
+    branches: [ pr ]

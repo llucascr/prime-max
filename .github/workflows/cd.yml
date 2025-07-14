@@ -1,0 +1,5 @@
+name: Continuous Delivery [CD]
+
+on:
+  push:
+    branches: [ cd ]

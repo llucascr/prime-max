@@ -1,0 +1,5 @@
+name: Continuous Integration (CI)
+
+on:
+  push:
+    branches: [ ci ]
