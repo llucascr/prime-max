@@ -43,13 +43,13 @@ jobs:
 
       - name: View Pull Request Information
         run: |
-          echo "🔀 Pull Request de: ${{ github.event.pull_request.head.ref }}"
-          echo "📥 Para a branch: ${{ github.event.pull_request.base.ref }}"
-          echo "👤 Autor: ${{ github.event.pull_request.user.login }}"
-          echo "✅ Status do PR: ${{ github.event.pull_request.state }}"
-          echo "🔗 URL do PR: ${{ github.event.pull_request.html_url }}"
+          echo "🔀 Pull Request de: ${{ github.head.ref }}"
+          echo "📥 Para a branch: ${{ github.base.ref }}"
+          echo "👤 Author: ${{ github.login }}"
+          echo "✅ Status do PR: ${{ github.state }}"
+          echo "🔗 URL do PR: ${{ github.server_url }}"
           echo "📦 Repositório: ${{ github.repository }}"
-          echo "🧬 SHA: ${{ github.event.pull_request.head.sha }}"
+          echo "🧬 SHA: ${{ github.sha }}"
 
       - name: Notify Discord Success Pull Request
         if: success()
