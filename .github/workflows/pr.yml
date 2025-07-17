@@ -42,7 +42,7 @@ jobs:
         run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
       - name: Create Pull Request
-        run: gh pr create -B ${{ github.head_ref }} -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into ${{ github.head_ref }}' --body '[Pull Request Realizado] Merge com a Branch [${{ github.head_ref }}]'
+        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into features' --body '[Pull Request Realizado] Merge com a Branch [ features ]'
 
       - name: View Pull Request Information
         run: |
