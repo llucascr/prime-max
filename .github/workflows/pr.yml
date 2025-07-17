@@ -39,7 +39,7 @@ jobs:
         run: mvn -B package --file pom.xml -DskipTests -Xinstall
 
       - name: Verify Release O.S
-        run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh
+        run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
       - name: View Pull Request Information
         run: |
