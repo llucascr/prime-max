@@ -1,14 +1,14 @@
 name: Pull Request Info [PR]
 
 on:
-  push:
+  pull_request:
     branches:
-      - ivan
-      - luis
-      - lucas
+       - ivan
+       - luis
+       - lucas
 
 jobs:
-  pull-request-details:
+  build:
     strategy:
       matrix:
         os: [ ubuntu-22.04, ubuntu-24.04 ]
@@ -23,23 +23,39 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+  pull-request:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
       - name: Packing Application
         run: mvn -B package --file pom.xml -DskipTests -Xinstall
 
       - name: Verify Release O.S
-        run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh
+        run: curl -fsSL ${{ secrets.RELEASE_OS }}
+
+      - name: Create Pull Request
+        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into features' --body '[Pull Request Realizado]'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SECRET_KEY }}
 
       - name: View Pull Request Information
         run: |
-          echo "🔀 Pull Request de: ${{ github.event.pull_request.head.ref }}"
-          echo "📥 Para a branch: ${{ github.event.pull_request.base.ref }}"
-          echo "👤 Autor: ${{ github.event.pull_request.user.login }}"
-          echo "✅ Status do PR: ${{ github.event.pull_request.state }}"
-          echo "🔗 URL do PR: ${{ github.event.pull_request.html_url }}"
+          echo "🔀 Pull Request de: ${{ github.ref_name }}"
+          echo "📥 Para a branch: features"
+          echo "👤 Author: ${{ github.actor }}"
+          echo "🔗 URL do PR: ${{ github.server_url }}/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}"
           echo "📦 Repositório: ${{ github.repository }}"
-          echo "🧬 SHA: ${{ github.event.pull_request.head.sha }}"
+          echo "🧬 SHA: ${{ github.sha }}"
 
-      - name: Notify Discord Success Deploy
+      - name: Notify Discord Success Pull Request
         if: success()
         uses: appleboy/discord-action@master
         with:
@@ -47,9 +63,9 @@ jobs:
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#48f442"
           username: ${{ github.actor }}
-          message: ":rocket: Algo de novo na branch ${{ github.event.pull_request.base.ref }} :rocket:\nEnviado uma nova release\nPara [prime-max]\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+          message: ":rocket: Enviado um Pull Request por ${{ github.actor }} para o projeto [prime-max]\nBranch: ${{ github.ref_name }}\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
-      - name: Notify Discord Failure Deploy
+      - name: Notify Discord Failure Pull Request
         if: failure()
         uses: appleboy/discord-action@master
         with:
