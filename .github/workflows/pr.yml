@@ -41,13 +41,16 @@ jobs:
       - name: Verify Release O.S
         run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
+      - name: Create Pull Request
+        run: gh pr create -B ${{ github.head_ref }} -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into ${{ github.head_ref }}' --body '[Pull Request Realizado] Merge com a Branch [${{ github.head_ref }}]'
+
       - name: View Pull Request Information
         run: |
-          echo "🔀 Pull Request de: ${{ github.head.ref }}"
-          echo "📥 Para a branch: ${{ github.base.ref }}"
-          echo "👤 Author: ${{ github.login }}"
-          echo "✅ Status do PR: ${{ github.state }}"
-          echo "🔗 URL do PR: ${{ github.server_url }}"
+          echo "🔀 Pull Request de: ${{ github.ref_name }}"
+          echo "📥 Para a branch: ${{ github.head_ref }}"
+          echo "👤 Author: ${{ github.actor }}"
+          echo "✅ Status do PR: ${{ github.action_status }}"
+          echo "🔗 URL do PR: ${{ github.server_url }}/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}"
           echo "📦 Repositório: ${{ github.repository }}"
           echo "🧬 SHA: ${{ github.sha }}"
 
