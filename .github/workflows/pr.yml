@@ -1,11 +1,11 @@
 name: Pull Request Info [PR]
 
 on:
-  push:
+  pull_request:
     branches:
-      - ivan
-      - luis
-      - lucas
+       - ivan
+       - luis
+       - lucas
 
 jobs:
   build:
@@ -42,14 +42,14 @@ jobs:
         run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
       - name: Create Pull Request
-        run: gh pr create -B ${{ github.base_ref }} -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into ${{ github.base_ref }}' --body '[Pull Request Realizado]'
+        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into ${{ github.base_ref }}' --body '[Pull Request Realizado]'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_SECRET_KEY }}
 
       - name: View Pull Request Information
         run: |
           echo "🔀 Pull Request de: ${{ github.ref_name }}"
-          echo "📥 Para a branch: ${{ github.base_ref }}"
+          echo "📥 Para a branch: features"
           echo "👤 Author: ${{ github.actor }}"
           echo "🔗 URL do PR: ${{ github.server_url }}/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}"
           echo "📦 Repositório: ${{ github.repository }}"
@@ -63,7 +63,7 @@ jobs:
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#48f442"
           username: ${{ github.actor }}
-          message: ":rocket: Algo de novo na branch ${{ github.event.pull_request.base.ref }} :rocket:\nEnviado uma nova release\nPara [prime-max]\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+          message: ":rocket: Enviado um Pull Request por ${{ github.actor }} para o projeto [prime-max]\nBranch: ${{ github.ref_name }}\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
       - name: Notify Discord Failure Pull Request
         if: failure()
