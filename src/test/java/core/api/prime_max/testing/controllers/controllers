@@ -1,0 +1,3 @@
+Aqui será testado a camada de controller, a api
+será testado as requisições endpoints e os seus retornos de comportamento
+Será usado MockMVC com testcontainers para realização dos casos de requisição

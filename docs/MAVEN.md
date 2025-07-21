@@ -26,8 +26,8 @@
 
 ```bash
    C:\> mvn --version
-Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
-Maven home: C:\apache-maven-3.9.6
+Apache Maven 3.9.9 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: C:\apache-maven-3.9.9
 Java version: 17.0.10, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-17
 Default locale: pt_BR, platform encoding: UTF-8
 OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
