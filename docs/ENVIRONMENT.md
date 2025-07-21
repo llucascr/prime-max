@@ -4,15 +4,18 @@
 </p>
 
 > # Criação e Construção do Ambiente de Desenvolvimento
-
+---
 > ### Descrição do Projeto
+---
 **Escrever e Descrever o projeto**
 
 > ## Tecnologias Utilizadas
+---
 **As seguintes ferramentas foram utilizadas na construção do projeto:**
 
 - [Java - v17](https://www.oracle.com/br/java/technologies/downloads/)
 - [Maven](https://maven.apache.org/)
+- [Docker](https://www.docker.com/get-started/)
 - [Spring Boot](https://spring.io/)
 - [PostgreSQL](https://www.postgresql.org/download/)
 - [PGAdmin 4](https://www.pgadmin.org/download/)
@@ -20,18 +23,23 @@
 - [Swagger Docs](https://swagger.io/)
 
 > ## Práticas adotadas
+---
 
 - **API REST**
 - **Injeção de Dependências**
 - **Implementação de esteira CI/CD Actions**
+- **Aplicação de testes (unidade/controle/database/arquitetura/testcontainers)**
 
 > ## Instalação
+---
 **Tenha instalado em seu sistema operacional:**
 
 > - [JAVA NA VERSÃO 17 OU SUPERIOR](https://www.oracle.com/br/java/technologies/downloads/#java17)
 >
 > - [MAVEN](https://maven.apache.org/download.cgi)
 >
+> - [DOCKER](https://docs.docker.com/engine/install/)
+> 
 > - [PostgreSQL](https://www.postgresql.org/download/)
 >
 > - [PGAdmin 4](https://www.pgadmin.org/download/)
@@ -39,9 +47,9 @@
 > - [GIT](https://git-scm.com/downloads)
 
 > ## Como Executar
+---
 
-- **Clonar
-  repositório `GITHUB`**
+- **Clonar repositório `GITHUB`**
 
 ```bash
    C:\>  git clone https://github.com/ivancarlosantos/prime-max.git
@@ -54,11 +62,12 @@
 ```
 
 > ## Configurações da aplicação com conexão com PostgreSQL
+---
 **Primeiramente, você deverá inserir as variáveis de ambiente da aplicação às informações com o banco de dados remoto**
 
 **Para isso, vá em `Edit Configurations...` (ao lado do botão Run/Play verde da IDE)**
 
-**No Campo `Name` insira `PowerKrApplication`**
+**No Campo `Name` insira `PrimeMaxApplication`**
 
 **Em Modify Options, selecione a opção `Add dependencies with "provided" scope to classpath`**
 
@@ -71,14 +80,15 @@
 **Na caixa de configuração User environmet variables, insira as seguintes variáveis de ambiente:**
 
 ```bash
- DB_PASSWORD = CRIAÇÂO_FUTURA
+    DB_PASSWORD = CRIAÇÂO_FUTURA
  
- DB_URL = CRIAÇÂO_FUTURA
+    DB_URL = CRIAÇÂO_FUTURA
  
- DB_USER = CRIAÇÂO_FUTURA
+    DB_USER = CRIAÇÂO_FUTURA
 ```
 
 > ## Adicionar os Plugins de Suporte ao Java e a IDE
+---
 
 **Plugins de suporte são plugins para funcionamento e reconhecimento de algumas anotações espalhadas no sistema**
 
@@ -92,8 +102,9 @@
 - Lombok é um plugin de iteração com código Java para redução de boilerplate, evitando assim, repetição de código
 
 > ## PGAdmin 4
+---
 
-- **PGAdmin é um serviço de SGBD para acesso e gerência de dados**
+**PGAdmin é um serviço de SGBD para acesso e gerência de dados**
 
 **Clique com o botão direito do mouse/mouse-pad no campo `Server` e selecione a opção `Register > Server`**
 
@@ -111,7 +122,10 @@
 
 **Na aba Parameters, no campo Value, abra o combobox e selecione a opção `require`**
 
-> ## Permissão de Conexão remota
+> ## Permissão de Conexão Remota
+---
+
+**Usaremos o [aiven](https://aiven.io/) para expor o banco de dados remoto (test/prod)**
 
 **Primeiramente, vá ao site [https://whatismyipaddress.com/](https://whatismyipaddress.com/)**
 
@@ -126,6 +140,7 @@
 **Pressione o botão Save**
 
 > ## DEMO
+---
 
 **Execute o Run/Play verde da IDE**
 

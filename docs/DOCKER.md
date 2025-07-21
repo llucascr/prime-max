@@ -1,4 +1,4 @@
-> ## Instalação Docker Windows 10
+> ## Instalação Docker Windows 10/11
 
 **Primeiramente, tenha acesso ao terminal `DOS ou Power Shell` com privilégio de Admin**
 

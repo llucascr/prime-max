@@ -1,0 +1,3 @@
+Camada de test das solicitações ao ORM da aplicação
+
+Aqui será usado o data jpa test para teste dos métodos otimizados na camada de repositório

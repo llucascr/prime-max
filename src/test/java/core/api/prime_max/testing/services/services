@@ -1,0 +1,4 @@
+Aqui é a camada de teste das regras de serviço, a camada de service
+nela, será testada as funcionalidades e regras de negócio da aplicação
+
+Será usado como test, JUnit e Mockito como sistema de teste das regras de negócios
