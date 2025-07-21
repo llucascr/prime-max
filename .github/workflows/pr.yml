@@ -1,7 +1,7 @@
-name: Pull Request Info [PR]
+name: Pull Request Info [PR] # https://docs.github.com/en/actions/reference/contexts-reference#github-context
 
 on:
-  pull_request:
+  push:
     branches:
        - ivan
        - luis
@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-  pull-request:
+  pull-requests:
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
