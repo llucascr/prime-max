@@ -80,11 +80,11 @@
 **Na caixa de configuração User environmet variables, insira as seguintes variáveis de ambiente:**
 
 ```bash
-    DB_PASSWORD = CRIAÇÂO_FUTURA
+    DB_PASSWORD = AVNS_0mfT6t5QKarNQzHbmzy
  
-    DB_URL = CRIAÇÂO_FUTURA
+    DB_URL = jdbc:postgresql://prime-max-database-staging-ivansantos-ec22.b.aivencloud.com:15151/prime-max
  
-    DB_USER = CRIAÇÂO_FUTURA
+    DB_USER = avnadmin
 ```
 
 > ## Adicionar os Plugins de Suporte ao Java e a IDE
@@ -106,38 +106,28 @@
 
 **PGAdmin é um serviço de SGBD para acesso e gerência de dados**
 
+**Para criar o recurso Docker do `pgadmin`, execute o comando abaixo:**
+
+````bash
+  docker run --name pgadmin -d -p 15432:80 -e PGADMIN_DEFAULT_EMAIL='prime-max@mail.com.br' -e PGADMIN_DEFAULT_PASSWORD='prime-max@mail.com.br' -v pgadmin_data:/var/lib/pgadmin dpage/pgadmin4:latest 
+````
+**`Conexão do PGADMIN com o Banco de Dados Remoto (STAGING/PRODUCTION)`**
+
 **Clique com o botão direito do mouse/mouse-pad no campo `Server` e selecione a opção `Register > Server`**
 
-**Na aba General, no campo Name, insira `prime_max_db_staging`**
+**Na aba General, no campo Name, insira `prime_max_database_staging`**
 
 **Na aba Connections preencha os seguintes campos**
 
-- **Host name/Address:** CRIAÇÂO_FUTURA
-- **Port:** CRIAÇÂO_FUTURA
-- **Maintenance Database:** CRIAÇÂO_FUTURA
-- **Username:** CRIAÇÂO_FUTURA
-- **Password:** CRIAÇÂO_FUTURA
+- **Host name/Address:** prime-max-database-staging-ivansantos-ec22.b.aivencloud.com
+- **Port:** 15151
+- **Maintenance Database:** prime-max
+- **Username:** avnadmin
+- **Password:** AVNS_0mfT6t5QKarNQzHbmzy
 
 **Selecione o toggle button on para salvar o password**
 
 **Na aba Parameters, no campo Value, abra o combobox e selecione a opção `require`**
-
-> ## Permissão de Conexão Remota
----
-
-**Usaremos o [aiven](https://aiven.io/) para expor o banco de dados remoto (test/prod)**
-
-**Primeiramente, vá ao site [https://whatismyipaddress.com/](https://whatismyipaddress.com/)**
-
-**Ele mostrará seu IP Público, Copie esse IP mostrado no campo IPv4**
-
-**Na aba Overview Na caixa de cadastro de IP's `Search for sources`, cole o IP**
-
-**Vá até a aba `Settings` desça até a opção `Trusted sources` e pressione a opção edit ao lado direito da sua tela**
-
-**Na caixa de cadastro de IP's `Search for sources`, cole novamente o IP**
-
-**Pressione o botão Save**
 
 > ## DEMO
 ---
