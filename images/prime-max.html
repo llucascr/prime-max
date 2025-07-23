@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relacionamento de Tabelas SQL - Prime-Max Streaming</title>
+    <style>
+        body {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 32px 80px;
+            position: relative;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+        }
+        h1 {
+            text-align: center;
+            font-size: 20pt;
+            font-weight: bold;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 12px;
+        }
+        h2 {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        h3 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 10px;
+        }
+        p {
+            text-align: justify;
+            margin-bottom: 12px;
+        }
+        .sql-code {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 10pt;
+            white-space: pre-wrap;
+        }
+        .table-info {
+            margin: 16px 0;
+            padding: 12px;
+            border: 1px solid #ddd;
+            background-color: #fafafa;
+        }
+        .relationship-diagram {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            line-height: 1.4;
+            text-align: left;
+            margin: 16px 0;
+            padding: 16px;
+            border: 2px solid #333;
+            background-color: #f9f9f9;
+        }
+        ul, ol {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .constraint-list {
+            font-size: 11pt;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Relacionamento de Tabelas SQL<br>Aplicação Prime-Max Streaming</h1>
+
+    <h2>1. Visão Geral do Sistema</h2>
+    <p>O sistema Prime-Max é uma plataforma de streaming de vídeos que permite aos usuários assistir conteúdos organizados por categorias, criar playlists personalizadas, seguir outros usuários e interagir através de comentários. O banco de dados foi projetado para suportar todas essas funcionalidades de forma eficiente e escalável.</p>
+
+    <h2>2. Estrutura das Tabelas</h2>
+
+    <h3>2.1 Tabela: usuarios</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Armazena informações dos usuários cadastrados na plataforma.
+    </div>
+    <div class="sql-code">CREATE TABLE usuarios (
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    data_nascimento DATE,
+    foto_perfil VARCHAR(255),
+    biografia TEXT,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_ultima_atividade TIMESTAMP,
+    status_conta ENUM('ativo', 'inativo', 'suspenso') DEFAULT 'ativo',
+    INDEX idx_email (email),
+    INDEX idx_status (status_conta)
+);</div>
+
+    <h3>2.2 Tabela: categoria</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Define as categorias de conteúdo disponíveis na plataforma.
+    </div>
+    <div class="sql-code">CREATE TABLE categoria (
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    descricao TEXT,
+    cor_tema VARCHAR(7), -- Código hexadecimal da cor
+    icone VARCHAR(255),
+    ativa BOOLEAN DEFAULT TRUE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_nome (nome),
+    INDEX idx_ativa (ativa)
+);</div>
+
+    <h3>2.3 Tabela: video</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Contém informações sobre todos os vídeos disponíveis na plataforma.
+    </div>
+    <div class="sql-code">CREATE TABLE video (
+    id_video INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(200) NOT NULL,
+    descricao TEXT,
+    url_video VARCHAR(500) NOT NULL,
+    thumbnail VARCHAR(500),
+    duracao TIME,
+    tamanho_arquivo BIGINT, -- Em bytes
+    resolucao VARCHAR(20), -- Ex: 1920x1080
+    id_categoria INT,
+    id_usuario_upload INT NOT NULL,
+    visualizacoes INT DEFAULT 0,
+    likes INT DEFAULT 0,
+    dislikes INT DEFAULT 0,
+    data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_publicacao TIMESTAMP,
+    status_video ENUM('publico', 'privado', 'nao_listado', 'removido') DEFAULT 'publico',
+    classificacao_etaria ENUM('livre', '10', '12', '14', '16', '18') DEFAULT 'livre',
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria) ON DELETE SET NULL,
+    FOREIGN KEY (id_usuario_upload) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    INDEX idx_titulo (titulo),
+    INDEX idx_categoria (id_categoria),
+    INDEX idx_usuario_upload (id_usuario_upload),
+    INDEX idx_data_upload (data_upload),
+    INDEX idx_status (status_video),
+    INDEX idx_visualizacoes (visualizacoes DESC)
+);</div>
+
+    <h3>2.4 Tabela: comentarios</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Armazena comentários dos usuários nos vídeos, incluindo respostas.
+    </div>
+    <div class="sql-code">CREATE TABLE comentarios (
+    id_comentario INT PRIMARY KEY AUTO_INCREMENT,
+    id_video INT NOT NULL,
+    id_usuario INT NOT NULL,
+    id_comentario_pai INT, -- Para respostas a comentários
+    conteudo TEXT NOT NULL,
+    data_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_edicao TIMESTAMP,
+    likes INT DEFAULT 0,
+    dislikes INT DEFAULT 0,
+    status_comentario ENUM('ativo', 'oculto', 'removido') DEFAULT 'ativo',
+    FOREIGN KEY (id_video) REFERENCES video(id_video) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_comentario_pai) REFERENCES comentarios(id_comentario) ON DELETE CASCADE,
+    INDEX idx_video (id_video),
+    INDEX idx_usuario (id_usuario),
+    INDEX idx_comentario_pai (id_comentario_pai),
+    INDEX idx_data_comentario (data_comentario DESC),
+    INDEX idx_status (status_comentario)
+);</div>
+
+    <h3>2.5 Tabela: seguidores</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Gerencia o relacionamento de seguidor/seguindo entre usuários.
+    </div>
+    <div class="sql-code">CREATE TABLE seguidores (
+    id_seguidor INT,
+    id_seguindo INT,
+    data_inicio_seguimento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_seguimento ENUM('ativo', 'pausado') DEFAULT 'ativo',
+    PRIMARY KEY (id_seguidor, id_seguindo),
+    FOREIGN KEY (id_seguidor) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_seguindo) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    CHECK (id_seguidor != id_seguindo),
+    INDEX idx_seguidor (id_seguidor),
+    INDEX idx_seguindo (id_seguindo),
+    INDEX idx_data_inicio (data_inicio_seguimento)
+);</div>
+
+    <h3>2.6 Tabela: playlist</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Armazena playlists criadas pelos usuários.
+    </div>
+    <div class="sql-code">CREATE TABLE playlist (
+    id_playlist INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(150) NOT NULL,
+    descricao TEXT,
+    id_usuario_criador INT NOT NULL,
+    thumbnail VARCHAR(500),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    privacidade ENUM('publica', 'nao_listada', 'privada') DEFAULT 'publica',
+    total_videos INT DEFAULT 0,
+    duracao_total TIME DEFAULT '00:00:00',
+    FOREIGN KEY (id_usuario_criador) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    INDEX idx_usuario_criador (id_usuario_criador),
+    INDEX idx_nome (nome),
+    INDEX idx_privacidade (privacidade),
+    INDEX idx_data_criacao (data_criacao DESC)
+);</div>
+
+    <h3>2.7 Tabela: playlist_videos (Tabela de Relacionamento)</h3>
+    <div class="table-info">
+        <strong>Descrição:</strong> Relaciona vídeos com playlists, permitindo ordem personalizada.
+    </div>
+    <div class="sql-code">CREATE TABLE playlist_videos (
+    id_playlist INT,
+    id_video INT,
+    ordem_na_playlist INT NOT NULL,
+    data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_playlist, id_video),
+    FOREIGN KEY (id_playlist) REFERENCES playlist(id_playlist) ON DELETE CASCADE,
+    FOREIGN KEY (id_video) REFERENCES video(id_video) ON DELETE CASCADE,
+    UNIQUE KEY unique_ordem_playlist (id_playlist, ordem_na_playlist),
+    INDEX idx_playlist (id_playlist),
+    INDEX idx_video (id_video),
+    INDEX idx_ordem (ordem_na_playlist)
+);</div>
+
+    <h2>3. Relacionamentos entre Tabelas</h2>
+
+    <div class="relationship-diagram">
+usuarios (1) ←→ (N) video               [id_usuario ← id_usuario_upload]
+usuarios (1) ←→ (N) comentarios         [id_usuario ← id_usuario]
+usuarios (N) ←→ (N) seguidores          [id_usuario ← id_seguidor/id_seguindo]
+usuarios (1) ←→ (N) playlist            [id_usuario ← id_usuario_criador]
+
+categoria (1) ←→ (N) video              [id_categoria ← id_categoria]
+
+video (1) ←→ (N) comentarios            [id_video ← id_video]
+video (N) ←→ (N) playlist_videos        [id_video ← id_video]
+
+playlist (1) ←→ (N) playlist_videos     [id_playlist ← id_playlist]
+
+comentarios (1) ←→ (N) comentarios      [id_comentario ← id_comentario_pai]
+    </div>
+
+    <h2>4. Tipos de Relacionamentos</h2>
+
+    <h3>4.1 Relacionamentos Um-para-Muitos (1:N)</h3>
+    <ul>
+        <li><strong>usuarios → video:</strong> Um usuário pode fazer upload de vários vídeos</li>
+        <li><strong>usuarios → comentarios:</strong> Um usuário pode fazer vários comentários</li>
+        <li><strong>usuarios → playlist:</strong> Um usuário pode criar várias playlists</li>
+        <li><strong>categoria → video:</strong> Uma categoria pode ter vários vídeos</li>
+        <li><strong>video → comentarios:</strong> Um vídeo pode ter vários comentários</li>
+        <li><strong>comentarios → comentarios:</strong> Um comentário pode ter várias respostas</li>
+    </ul>
+
+    <h3>4.2 Relacionamentos Muitos-para-Muitos (N:N)</h3>
+    <ul>
+        <li><strong>usuarios ←→ usuarios (seguidores):</strong> Um usuário pode seguir e ser seguido por vários usuários</li>
+        <li><strong>playlist ←→ video (playlist_videos):</strong> Uma playlist pode ter vários vídeos e um vídeo pode estar em várias playlists</li>
+    </ul>
+
+    <h2>5. Constraints e Regras de Negócio</h2>
+
+    <h3>5.1 Chaves Primárias</h3>
+    <div class="constraint-list">
+        <ul>
+            <li>Todas as tabelas principais possuem chave primária auto-incrementável</li>
+            <li>Tabelas de relacionamento N:N usam chaves primárias compostas</li>
+        </ul>
+    </div>
+
+    <h3>5.2 Chaves Estrangeiras e Integridade Referencial</h3>
+    <div class="constraint-list">
+        <ul>
+            <li><strong>ON DELETE CASCADE:</strong> Aplicado em relacionamentos onde a exclusão do pai deve remover os filhos</li>
+            <li><strong>ON DELETE SET NULL:</strong> Aplicado onde a exclusão do pai deve manter os filhos mas limpar a referência</li>
+        </ul>
+    </div>
+
+    <h3>5.3 Constraints Especiais</h3>
+    <div class="constraint-list">
+        <ul>
+            <li><strong>seguidores:</strong> CHECK constraint impede auto-seguimento (id_seguidor ≠ id_seguindo)</li>
+            <li><strong>usuarios:</strong> Email único para evitar duplicatas</li>
+            <li><strong>categoria:</strong> Nome único para evitar categorias duplicadas</li>
+            <li><strong>playlist_videos:</strong> Ordem única por playlist para manter sequência</li>
+        </ul>
+    </div>
+
+    <h2>6. Índices para Performance</h2>
+
+    <p>O esquema inclui índices estratégicos para otimizar consultas frequentes:</p>
+
+    <div class="constraint-list">
+        <ul>
+            <li><strong>Busca por usuários:</strong> índices em email e status da conta</li>
+            <li><strong>Busca por vídeos:</strong> índices em título, categoria, data de upload e visualizações</li>
+            <li><strong>Busca por comentários:</strong> índices em vídeo, usuário e data</li>
+            <li><strong>Relacionamentos:</strong> índices em todas as chaves estrangeiras</li>
+            <li><strong>Ordenação:</strong> índices descendentes para dados temporais e contadores</li>
+        </ul>
+    </div>
+
+    <h2>7. Considerações de Escalabilidade</h2>
+
+    <p>O design do banco de dados foi pensado para suportar crescimento da plataforma:</p>
+
+    <div class="constraint-list">
+        <ul>
+            <li><strong>Particionamento:</strong> Tabelas grandes como 'video' e 'comentarios' podem ser particionadas por data</li>
+            <li><strong>Arquivamento:</strong> Dados antigos podem ser movidos para tabelas de arquivo</li>
+            <li><strong>Cacheable:</strong> Contadores como visualizações podem ser implementados com cache</li>
+            <li><strong>Replicação:</strong> Estrutura permite fácil implementação de leitura em réplicas</li>
+        </ul>
+    </div>
+
+    <h2>8. Conclusão</h2>
+
+    <p>O esquema de banco de dados apresentado oferece uma base sólida para a aplicação Prime-Max, contemplando todas as funcionalidades essenciais de uma plataforma de streaming moderna. A estrutura relacional garante integridade dos dados, while os índices otimizam performance para as operações mais comuns. O design é flexível o suficiente para permitir futuras expansões e modificações conforme a plataforma evolui.</p>
+
+</body>
+</html>
