@@ -11,6 +11,6 @@ public class PrimeMaxApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrimeMaxApplication.class, args);
-		log.info("Application UP {}", HttpStatus.OK);
+		log.info("PrimeMaxApplication UP {}", HttpStatus.OK);
 	}
 }
