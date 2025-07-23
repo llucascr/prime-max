@@ -1,6 +1,5 @@
 package core.api.prime_max.api;
 
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,10 +37,6 @@ public class TestController {
     @NoArgsConstructor
     @Builder
     public static class TestFlow {
-
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
 
         private String owner;
 

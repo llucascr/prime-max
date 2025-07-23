@@ -36,20 +36,20 @@ jobs:
           cache: 'maven'
 
       - name: Packing Application
-        run: mvn -B package --file pom.xml -DskipTests -Xinstall
+        run: mvn -B package --file pom.xml -DskipTests
 
       - name: Verify Release O.S
         run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
       - name: Create Pull Request
-        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into features' --body '[Pull Request Realizado]'
+        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into features' --body '[Pull Request Realizado por ${{ github.actor }}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_SECRET_KEY }}
 
       - name: View Pull Request Information
         run: |
           echo "🔀 Pull Request de: ${{ github.ref_name }}"
-          echo "📥 Para a branch: features"
+          echo "📥 Para a Branch: features"
           echo "👤 Author: ${{ github.actor }}"
           echo "🔗 URL do PR: ${{ github.server_url }}/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}"
           echo "📦 Repositório: ${{ github.repository }}"
@@ -61,8 +61,8 @@ jobs:
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          color: "#48f442"
-          username: ${{ github.actor }}
+          color: "#1270b0"
+          username: "🔄 Pull Request Notification 🔀"
           message: ":rocket: Enviado um Pull Request por ${{ github.actor }} para o projeto [prime-max]\nBranch: ${{ github.ref_name }}\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
       - name: Notify Discord Failure Pull Request

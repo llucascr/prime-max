@@ -2,7 +2,7 @@ name: Continuous Delivery [CD]
 
 on:
   push:
-    branches: [ feature ]
+    branches: [ features ]
 
 jobs:
   build:
