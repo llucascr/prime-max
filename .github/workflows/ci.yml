@@ -1,0 +1,67 @@
+name: Continuous Integration [CI]
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04, ubuntu-24.04 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Verify Release O.S
+        run: curl -fsSL ${{ secrets.RELEASE_OS }}
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/prime-max .
+
+      - name: Publish Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/prime-max
+
+      - name: Notify Discord Success Deploy
+        if: success()
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: "#48f442"
+          username: ${{ github.actor }}
+          message: ":rocket: Há algo de novo na branch master :rocket:\nEnviado uma nova release para o projeto [prime-max]\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+
+      - name: Notify Discord Failure Deploy
+        if: failure()
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: "#b81d1d"
+          username: ${{ github.actor }}
+          message: ":triumph: Algo deu errado meu caro :triumph:\nVeja o que aconteceu e envie novamente"

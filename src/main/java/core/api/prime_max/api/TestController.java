@@ -1,5 +1,6 @@
 package core.api.prime_max.api;
 
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class TestController {
                 .address(InetAddress.getByName(InetAddress.getLocalHost().getHostAddress()))
                 .date(new Date().toString())
                 .build();
+
         log.info("owner: {}  address: {}", response.getOwner(), response.getAddress());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -37,9 +39,16 @@ public class TestController {
     @Builder
     public static class TestFlow {
 
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
         private String owner;
+
         private InetAddress address;
+
         private String hash;
+
         private String date;
     }
 }
