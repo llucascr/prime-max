@@ -22,8 +22,23 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-  package:
+  test:
     needs: [ build ]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Execute Application Tests
+        run:  mvn verify
+
+  package:
+    needs: [ test ]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2
@@ -58,7 +73,7 @@ jobs:
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          color: "#48f442"
+          color: "#9b59b6"
           username: ${{ github.actor }}
           message: ":rocket: Há algo de novo na branch feature :rocket:\nEnviado uma nova release para o projeto [prime-max]\nStatus: ${{ job.status }}\n[Ver Commit] (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
