@@ -34,7 +34,17 @@
 ```bash
    $ mvn test
 ```
-**Executa os testes unitários do projeto.**
+**Executa os testes unitários (services) do projeto.**
+
+```bash
+   $ mvn integration-test
+```
+**Executa os testes de integração (controller) do projeto.**
+
+```bash
+   $ mvn verify
+```
+**Executa todos os testes existentes no projeto.**
 
 ```bash
    $ mvn dependency:tree
@@ -50,5 +60,10 @@
    $ mvn clean install
 ```
 **Executa a limpeza, compilação, empacotamento e instalação do pacote em um único comando.**
+
+```bash
+   $ mvn clean install -DskipTests
+```
+**Executa a limpeza, compilação, empacotamento e instalação do pacote pulando a execução dos testes.**
 
 **Esses são apenas alguns dos principais comandos do Maven. O Maven tem muitos outros comandos e opções que podem ser úteis para diferentes situações de desenvolvimento.**
