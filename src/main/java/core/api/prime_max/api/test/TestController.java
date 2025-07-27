@@ -1,4 +1,4 @@
-package core.api.prime_max.api;
+package core.api.prime_max.api.test;
 
 import core.api.prime_max.models.TestFlow;
 import lombok.extern.slf4j.Slf4j;

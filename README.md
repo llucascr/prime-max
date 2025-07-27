@@ -92,7 +92,7 @@ ___
 
 - **Caso desejar testar a aplicação em ambiente `dev`, com o Docker ativo, execute:**
 ````bash
-    docker run --name prime-max -d -p 8080:8080 -e DB_USERNAME='avnadmin' -e DB_PASSWORD='AVNS_0mfT6t5QKarNQzHbmzy' -e DB_URL='jdbc:postgresql://prime-max-database-staging-ivansantos-ec22.b.aivencloud.com:15151/prime-max' devmenorzera/prime-max:latest
+    docker run --name prime-max -d -p 8080:8080 -e DB_USERNAME='avnadmin' -e DB_PASSWORD='AVNS_0mfT6t5QKarNQzHbmzy' -e DB_URL='jdbc:postgresql://prime-max-database-staging-ivansantos-ec22.b.aivencloud.com:15151/prime-max' devmenorzera/prime-max:feature
 ````
 - **Para acessar a aplicação, via [Web](http://localhost:8080)**
 ````bash
