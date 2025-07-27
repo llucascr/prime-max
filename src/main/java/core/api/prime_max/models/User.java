@@ -20,18 +20,14 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime creat_at;
+    private String name;
 
     private String email;
-
-    private String name;
 
     private String password;
 
     private String plan;
 
-    private Long role;
-
-   /* private List<Follower> followers;*/
+    private LocalDateTime createAt;
 
 }
