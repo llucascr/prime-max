@@ -1,4 +1,4 @@
-package core.api.prime_max.dto.response;
+package core.api.prime_max.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

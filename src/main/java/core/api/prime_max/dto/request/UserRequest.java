@@ -27,4 +27,6 @@ public class UserRequest {
 
     private LocalDateTime createAt;
 
+    private Boolean active;
+
 }

@@ -1,6 +1,6 @@
 package core.api.prime_max.configurations;
 
-import core.api.prime_max.dto.response.ErrorResponse;
+import core.api.prime_max.exceptions.ErrorResponse;
 import core.api.prime_max.exceptions.ApiExceptionInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
