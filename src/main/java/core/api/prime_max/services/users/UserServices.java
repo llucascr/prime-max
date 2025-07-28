@@ -1,17 +1,16 @@
-package core.api.prime_max.services;
+package core.api.prime_max.services.users;
 
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
-import core.api.prime_max.models.User;
-import core.api.prime_max.repositories.UserRepository;
+import core.api.prime_max.models.users.User;
+import core.api.prime_max.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserServices {
 
     private final UserRepository userRepository;
 

@@ -1,11 +1,10 @@
-package core.api.prime_max.models;
+package core.api.prime_max.models.users;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
