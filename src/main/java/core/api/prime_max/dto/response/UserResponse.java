@@ -1,5 +1,6 @@
 package core.api.prime_max.dto.response;
 
+import core.api.prime_max.dto.enums.Plan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class UserResponse {
 
     private String email;
 
-    private String plan;
+    private Plan plan;
 
     private LocalDateTime createAt;
 

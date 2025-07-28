@@ -23,6 +23,7 @@ public class UserServices {
                 .email(userRequest.getEmail())
                 .password(userRequest.getPassword())
                 .plan(userRequest.getPlan())
+                .createAt(userRequest.getCreateAt())
                 .build();
 
         return modelMapper.map(userRepository.save(user), UserResponse.class);

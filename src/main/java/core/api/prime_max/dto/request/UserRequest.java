@@ -1,6 +1,7 @@
 package core.api.prime_max.dto.request;
 
 
+import core.api.prime_max.dto.enums.Plan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class UserRequest {
 
     private String password;
 
-    private String plan;
+    private Plan plan;
 
     private LocalDateTime createAt;
 
