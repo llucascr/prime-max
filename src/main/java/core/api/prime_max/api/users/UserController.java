@@ -15,22 +15,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/v2")
+@RequestMapping(path = "/api/v2/users")
 public class UserController {
 
     private final UserServices userService;
 
-    @PostMapping
+    @PostMapping(path = "/createUser")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
 
-    @GetMapping(path = "/id")
+    @GetMapping(path = "/listUserById")
     public ResponseEntity<UserResponse> listUserById(@RequestParam Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUserById(id));
     }
 
-    @GetMapping
+    @GetMapping(path = "/listUsers")
     public ResponseEntity<List<UserResponse>> listUsers(
             @RequestParam int page,
             @RequestParam int numberOfUsers,
