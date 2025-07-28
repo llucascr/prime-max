@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handlerApiException(ApiExceptionInterface contract) {
-        HttpStatus status = contract.getHttpStatus();
-        ErrorResponse error = new ErrorResponse(
-                contract.getCode(),
-                contract.getMessage(),
-                status.value()
-        );
-        return ResponseEntity.status(status).body(error);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handlerGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handlerApiException(RuntimeException contract) {
+        if (contract instanceof ApiExceptionInterface apiEx) {
+            HttpStatus status = apiEx.getHttpStatus();
+            ErrorResponse error = new ErrorResponse(
+                    apiEx.getCode(),
+                    apiEx.getMessage(),
+                    status.value()
+            );
+            return ResponseEntity.status(status).body(error);
+        }
         ErrorResponse error = new ErrorResponse(
                 "INTERNAL_SERVER_ERROR",
                 "Ocorreu um erro inesperado",
@@ -32,5 +30,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
+
+    /*@ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handlerGenericException(Exception ex) {
+        ErrorResponse error = new ErrorResponse(
+                "INTERNAL_SERVER_ERROR",
+                "Ocorreu um erro inesperado",
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }*/
 
 }
