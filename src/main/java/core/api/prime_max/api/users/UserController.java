@@ -20,17 +20,17 @@ public class UserController {
 
     private final UserServices userService;
 
-    @PostMapping(path = "/createUser")
+    @PostMapping(path = "/create")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
 
-    @GetMapping(path = "/listUserById")
+    @GetMapping(path = "/listById")
     public ResponseEntity<UserResponse> listUserById(@RequestParam Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUserById(id));
     }
 
-    @GetMapping(path = "/listUsers")
+    @GetMapping(path = "/list")
     public ResponseEntity<List<UserResponse>> listUsers(
             @RequestParam int page,
             @RequestParam int numberOfUsers,
