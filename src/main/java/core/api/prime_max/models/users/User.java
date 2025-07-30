@@ -1,6 +1,6 @@
 package core.api.prime_max.models.users;
 
-import core.api.prime_max.dto.enums.Plan;
+import core.api.prime_max.dto.enums.UserPlan;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class User implements Serializable {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Plan plan;
+    private UserPlan plan;
 
     private LocalDateTime createAt;
 

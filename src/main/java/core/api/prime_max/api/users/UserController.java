@@ -3,6 +3,7 @@ package core.api.prime_max.api.users;
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
 import core.api.prime_max.services.users.UserServices;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,11 @@ public class UserController {
             @RequestParam int numberOfUsers,
             @RequestParam String name) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUsers(page, numberOfUsers, name).getContent());
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<UserResponse> updateUser(@RequestParam Long id, @RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 
 }

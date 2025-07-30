@@ -1,6 +1,6 @@
 package core.api.prime_max.dto.enums;
 
-public enum Plan {
+public enum UserPlan {
     FREE,
     PAYING
 }

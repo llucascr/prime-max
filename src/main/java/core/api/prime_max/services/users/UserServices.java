@@ -49,7 +49,7 @@ public class UserServices {
 
     public UserResponse listUserById(Long id) {
         Optional<User> userOp = userRepository.findById(id);
-        return modelMapper.map(userOp.orElseThrow(() -> new UserNotFound("User with Id " + id + " not found")), UserResponse.class);
+        return modelMapper.map(userOp.orElseThrow(() -> new UserNotFound("User with ID " + id + " not found")), UserResponse.class);
     }
 
     public Page<UserResponse> listUsers(int page, int numberOfUsers, String name) {
@@ -61,6 +61,18 @@ public class UserServices {
                 .toList();
 
         return new PageImpl<>(userResponses, pageable, users.getTotalElements());
+    }
+
+    public UserResponse updateUser(Long id, UserRequest userRequest) {
+        User userModel = modelMapper.map(userRequest, User.class);
+        Optional<User> userOp = userRepository.findById(id);
+        if (userOp.isPresent()) {
+            userModel.setId(id);
+            return modelMapper.map(userRepository.save(userModel), UserResponse.class);
+        }
+
+        log.info("User with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        throw new UserNotFound("User with ID " + id + " not found");
     }
 
 }
