@@ -33,8 +33,8 @@ public class UserController {
 
     @GetMapping(path = "/list")
     public ResponseEntity<List<UserResponse>> listUsers(
-            @RequestParam int page,
-            @RequestParam int numberOfUsers,
+            @RequestParam(defaultValue = "0", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int numberOfUsers,
             @RequestParam String name) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUsers(page, numberOfUsers, name).getContent());
     }
