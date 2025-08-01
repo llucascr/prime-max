@@ -41,11 +41,6 @@ jobs:
       - name: Verify Release O.S
         run: curl -fsSL ${{ secrets.RELEASE_OS }}
 
-      - name: Create Pull Request
-        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request ${{ github.ref_name }} into features' --body '[Pull Request Realizado por ${{ github.actor }}]'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_SECRET_KEY }}
-
       - name: View Pull Request Information
         run: |
           echo "🔀 Pull Request de: ${{ github.ref_name }}"
