@@ -1,5 +1,7 @@
 package core.api.prime_max.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import core.api.prime_max.dto.enums.UserPlan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserResponse {
 
     private Long id;
@@ -19,8 +22,10 @@ public class UserResponse {
 
     private String email;
 
-    private String plan;
+    private UserPlan plan;
 
     private LocalDateTime createAt;
+
+    private Boolean active;
 
 }
