@@ -3,12 +3,12 @@ package core.api.prime_max.exceptions.category;
 import core.api.prime_max.exceptions.ApiExceptionInterface;
 import org.springframework.http.HttpStatus;
 
-public class CategoryNameIsEmpty extends RuntimeException implements ApiExceptionInterface {
+public class CategoryDeleteException extends RuntimeException implements ApiExceptionInterface {
 
-    private final String code = "NAME_IS_EMPTY";
+    private final String code = "CATEGORY_DELETE_CONFLICT";
     private String message;
 
-    public CategoryNameIsEmpty(String message) {
+    public CategoryDeleteException(String message) {
         this.message = message;
     }
 
@@ -24,6 +24,6 @@ public class CategoryNameIsEmpty extends RuntimeException implements ApiExceptio
 
     @Override
     public HttpStatus getHttpStatus() {
-        return HttpStatus.BAD_REQUEST;
+        return HttpStatus.CONFLICT;
     }
 }

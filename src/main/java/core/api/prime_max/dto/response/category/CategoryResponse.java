@@ -1,4 +1,4 @@
-package core.api.prime_max.dto.response;
+package core.api.prime_max.dto.response.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

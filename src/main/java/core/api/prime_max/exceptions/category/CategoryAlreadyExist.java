@@ -12,10 +12,12 @@ public class CategoryAlreadyExist extends RuntimeException implements ApiExcepti
         this.message = message;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
