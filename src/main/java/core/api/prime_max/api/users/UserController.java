@@ -3,6 +3,7 @@ package core.api.prime_max.api.users;
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
 import core.api.prime_max.services.users.UserServices;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserServices userService;
 
     @PostMapping(path = "/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
 
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/update")
-    public ResponseEntity<UserResponse> updateUser(@RequestParam Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@RequestParam Long id, @Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 

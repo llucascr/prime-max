@@ -1,5 +1,6 @@
 package core.api.prime_max.services.users;
 
+import core.api.prime_max.dto.enums.UserPlan;
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
 import core.api.prime_max.exceptions.users.UserAlreadyExist;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +42,9 @@ public class UserServices {
                 .name(userRequest.getName())
                 .email(userRequest.getEmail())
                 .password(userRequest.getPassword())
-                .plan(userRequest.getPlan())
-                .createAt(userRequest.getCreateAt())
-                .active(userRequest.getActive())
+                .plan(UserPlan.FREE)
+                .createAt(LocalDateTime.now())
+                .active(true)
                 .build();
 
         return modelMapper.map(userRepository.save(user), UserResponse.class);
