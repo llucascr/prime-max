@@ -67,15 +67,19 @@ public class UserServices {
     }
 
     public UserResponse updateUser(Long id, UserRequest userRequest) {
-        User userModel = modelMapper.map(userRequest, User.class);
-        Optional<User> userOp = userRepository.findById(id);
-        if (userOp.isPresent()) {
-            userModel.setId(id);
-            return modelMapper.map(userRepository.save(userModel), UserResponse.class);
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound("User with ID " + id + " not found"));
 
-        log.info("User with ID " + id + " not found", HttpStatus.NOT_FOUND);
-        throw new UserNotFound("User with ID " + id + " not found");
+        User userUpdated = User.builder()
+                .id(user.getId())
+                .name(userRequest.getName() != null ? userRequest.getName() : user.getName())
+                .email(userRequest.getEmail() != null ? userRequest.getEmail() : user.getName())
+                .password(userRequest.getPassword() != null ? userRequest.getPassword() : user.getPassword())
+                .plan(user.getPlan())
+                .createAt(user.getCreateAt())
+                .active(user.getActive())
+                .build();
+
+        return modelMapper.map(userRepository.save(userUpdated), UserResponse.class);
     }
 
 }
