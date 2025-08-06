@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> listUsers(
             @RequestParam(defaultValue = "0", required = false) int page,
             @RequestParam(defaultValue = "10", required = false) int numberOfUsers,
-            @RequestParam String name) {
+            @RequestParam(required = false) String name) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUsers(page, numberOfUsers, name).getContent());
     }
 

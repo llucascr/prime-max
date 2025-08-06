@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT * FROM tb_users u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%'))",
+    @Query(value = "SELECT * FROM tb_users u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY u.id",
             nativeQuery = true)
     Page<User> findByName(@Param("name") String name, Pageable pageable);
 

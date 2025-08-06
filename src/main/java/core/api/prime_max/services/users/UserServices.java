@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -57,7 +58,9 @@ public class UserServices {
 
     public Page<UserResponse> listUsers(int page, int numberOfUsers, String name) {
         Pageable pageable = PageRequest.of(page, numberOfUsers);
-        Page<User> users = userRepository.findByName(name, pageable);
+        Page<User> users = StringUtils.hasText(name)
+                ? userRepository.findByName(name.trim(), pageable)
+                : userRepository.findAll(pageable);
 
         List<UserResponse> userResponses = users.getContent().stream()
                 .map(user -> modelMapper.map(user, UserResponse.class))
