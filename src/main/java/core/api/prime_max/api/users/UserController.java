@@ -3,10 +3,9 @@ package core.api.prime_max.api.users;
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
 import core.api.prime_max.services.users.UserServices;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class UserController {
     private final UserServices userService;
 
     @PostMapping(path = "/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
 
@@ -33,14 +32,14 @@ public class UserController {
 
     @GetMapping(path = "/list")
     public ResponseEntity<List<UserResponse>> listUsers(
-            @RequestParam int page,
-            @RequestParam int numberOfUsers,
-            @RequestParam String name) {
+            @RequestParam(defaultValue = "0", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int numberOfUsers,
+            @RequestParam(required = false) String name) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listUsers(page, numberOfUsers, name).getContent());
     }
 
     @PutMapping(path = "/update")
-    public ResponseEntity<UserResponse> updateUser(@RequestParam Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@RequestParam Long id, @Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 

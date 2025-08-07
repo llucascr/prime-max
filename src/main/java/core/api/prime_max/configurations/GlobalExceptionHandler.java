@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
+    /*@ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handlerApiException(RuntimeException contract) {
         if (contract instanceof ApiExceptionInterface apiEx) {
             HttpStatus status = apiEx.getHttpStatus();
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }
+    }*/
 
     /*@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handlerGenericException(Exception ex) {
