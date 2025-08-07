@@ -50,6 +50,11 @@ jobs:
           echo "📦 Repositório: ${{ github.repository }}"
           echo "🧬 SHA: ${{ github.sha }}"
 
+      - name: Create Pull Request
+        run: gh pr create -B features -H ${{ github.ref_name }} --title 'Pull Request Reference Branch ${{ github.ref_name }} Author ${{ github.actor }}' --body 'Pull Request Realized para merge com a Branch features'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SECRET_KEY }}
+
       - name: Notify Discord Success Pull Request
         if: success()
         uses: appleboy/discord-action@master

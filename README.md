@@ -4,11 +4,11 @@
 
 > ## Participantes
 ---
-| Dev                                        | Github                                                                                                        |
-|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| [Ivan](https://github.com/ivancarlosantos) | ![Ivan](https://img.shields.io/badge/Ivan%20Santos-100000?style=for-the-badge&logo=github&logoColor=white)    |
-| [Luis](https://github.com/LuisSilvah)      | ![Luis](https://img.shields.io/badge/Luis%20Gustavo-100000?style=for-the-badge&logo=github&logoColor=white)   |
-| [Lucas](https://github.com/llucascr)       | ![Lucas](https://img.shields.io/badge/Lucas%20Ranzani-100000?style=for-the-badge&logo=github&logoColor=white) |
+| Dev                                        | Github                                                                                                                                                                                                                   |
+|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Ivan](https://github.com/ivancarlosantos) | ![Ivan](https://img.shields.io/badge/Ivan%20Santos-100000?style=for-the-badge&logo=github&logoColor=white)                                                                                                               |
+| [Luis](https://github.com/LuisSilvah)      | ![Luis](https://img.shields.io/badge/Luis%20Gustavo-100000?style=for-the-badge&logo=github&logoColor=white)                                                                                                              |
+| [Lucas](https://github.com/llucascr)       | ![Lucas](https://img.shields.io/badge/Lucas%20Ranzani-100000?style=for-the-badge&logo=github&logoColor=white)                                                                                                            |
 
 
 > ## Descrição do Projeto
@@ -79,7 +79,7 @@ ___
 ---
 - **Clonar repositório `GITHUB`**
 ```bash
-   git clone https://github.com/ivancarlosantos/video-max.git
+   git clone https://github.com/ivancarlosantos/prime-max.git
 ```
 - **Ir até o diretório/pasta localizando a aplicação**
 ```bash
@@ -90,9 +90,9 @@ ___
 > ## DEMO
 ---
 
-- **Caso desejar testar a aplicação em ambiente `dev`, com o Docker ativo, execute:**
+- **Caso desejar testar a aplicação em modo container, com o Docker ativo, execute:**
 ````bash
-    docker run --name prime-max -d -p 8080:8080 -e DB_USERNAME='avnadmin' -e DB_PASSWORD='AVNS_0mfT6t5QKarNQzHbmzy' -e DB_URL='jdbc:postgresql://prime-max-database-staging-ivansantos-ec22.b.aivencloud.com:15151/prime-max' devmenorzera/prime-max:feature
+    docker run --name prime-max -d -p 8080:8080 -e DB_USERNAME='avnadmin' -e DB_PASSWORD='AVNS_sRtjVAQ_epZELVqZ4n9' -e DB_URL='jdbc:postgresql://prime-max-database-ivansantos-ec22.h.aivencloud.com:15151/prime-max' devmenorzera/prime-max:feature
 ````
 - **Para acessar a aplicação, via [Web](http://localhost:8080)**
 ````bash

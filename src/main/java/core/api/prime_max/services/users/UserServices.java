@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,25 +38,25 @@ public class UserServices {
         }
 
         User user = User.builder()
-                .name(userRequest.getName())
-                .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
-                .plan(UserPlan.FREE)
-                .createAt(LocalDateTime.now())
-                .active(true)
-                .build();
+                        .name(userRequest.getName())
+                        .email(userRequest.getEmail())
+                        .password(userRequest.getPassword())
+                        .plan(UserPlan.FREE)
+                        .createAt(LocalDateTime.now())
+                        .active(true)
+                        .build();
 
         return modelMapper.map(userRepository.save(user), UserResponse.class);
     }
 
     public UserResponse listUserById(Long id) {
-        Optional<User> userOp = userRepository.findById(id);
-        return modelMapper.map(userOp.orElseThrow(() -> new UserNotFound("User with ID " + id + " not found")), UserResponse.class);
+        User response = userRepository.findById(id).orElseThrow(() -> new UserNotFound("User with ID " + id + " not found"));
+        return modelMapper.map(response, UserResponse.class);
     }
 
     public Page<UserResponse> listUsers(int page, int numberOfUsers, String name) {
         Pageable pageable = PageRequest.of(page, numberOfUsers);
-        Page<User> users = StringUtils.hasText(name)
+        Page<User> users  = StringUtils.hasText(name)
                 ? userRepository.findByName(name.trim(), pageable)
                 : userRepository.findAll(pageable);
 
@@ -73,14 +71,14 @@ public class UserServices {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound("User with ID " + id + " not found"));
 
         User userUpdated = User.builder()
-                .id(user.getId())
-                .name(userRequest.getName() != null ? userRequest.getName() : user.getName())
-                .email(userRequest.getEmail() != null ? userRequest.getEmail() : user.getName())
-                .password(userRequest.getPassword() != null ? userRequest.getPassword() : user.getPassword())
-                .plan(user.getPlan())
-                .createAt(user.getCreateAt())
-                .active(user.getActive())
-                .build();
+                               .id(user.getId())
+                               .name(userRequest.getName() != null ? userRequest.getName() : user.getName())
+                               .email(userRequest.getEmail() != null ? userRequest.getEmail() : user.getName())
+                               .password(userRequest.getPassword() != null ? userRequest.getPassword() : user.getPassword())
+                               .plan(user.getPlan())
+                               .updateAt(LocalDateTime.now())
+                               .active(user.getActive())
+                               .build();
 
         return modelMapper.map(userRepository.save(userUpdated), UserResponse.class);
     }
