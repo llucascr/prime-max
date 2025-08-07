@@ -58,7 +58,7 @@ public class UserServices {
         Pageable pageable = PageRequest.of(page, numberOfUsers);
         Page<User> users  = StringUtils.hasText(name)
                 ? userRepository.findByName(name.trim(), pageable)
-                : userRepository.findAll(pageable);
+                : userRepository.findAllPageble(pageable);
 
         List<UserResponse> userResponses = users.getContent().stream()
                 .map(user -> modelMapper.map(user, UserResponse.class))
