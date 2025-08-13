@@ -4,6 +4,7 @@ import core.api.prime_max.dto.enums.UserPlan;
 import core.api.prime_max.dto.request.UserRequest;
 import core.api.prime_max.dto.response.UserResponse;
 import core.api.prime_max.exceptions.users.UserAlreadyExist;
+import core.api.prime_max.exceptions.users.UserAlreadyPremium;
 import core.api.prime_max.exceptions.users.UserNotFound;
 import core.api.prime_max.models.users.User;
 import core.api.prime_max.repositories.users.UserRepository;
@@ -81,6 +82,19 @@ public class UserServices {
                                .build();
 
         return modelMapper.map(userRepository.save(userUpdated), UserResponse.class);
+    }
+
+    public UserResponse requestPlanUpdatePremium(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound("User with ID " + id + " not found"));
+
+        // TODO: Implementar futuramente os parametros de solicitação da mudança de plano
+
+        if (!user.getPlan().equals(UserPlan.PREMIUM)) {
+            user.setPlan(UserPlan.PREMIUM);
+            user.setUpdateAt(LocalDateTime.now());
+            return modelMapper.map(userRepository.save(user), UserResponse.class);
+        }
+        throw new UserAlreadyPremium("User with ID " + id + " already PREMIUM");
     }
 
 }
