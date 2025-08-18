@@ -43,4 +43,9 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 
+    @PutMapping(path = "/planUpdate")
+    public ResponseEntity<UserResponse> requestPlanUpdate(@RequestParam Long id) {
+        return ResponseEntity.ok(userService.requestPlanUpdatePremium(id));
+    }
+
 }

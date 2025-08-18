@@ -26,6 +26,8 @@ public class UserResponse {
 
     private LocalDateTime createAt;
 
+    private LocalDateTime updateAt;
+
     private Boolean active;
 
 }
