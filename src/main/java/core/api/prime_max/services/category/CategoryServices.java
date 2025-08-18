@@ -12,9 +12,12 @@ import core.api.prime_max.repositories.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,14 +30,26 @@ public class CategoryServices {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public List<CategoryResponse> listAll(String name) {
-        List<Category> list = categoryRepository.findAll();
+    public List<CategoryResponse> listAll(
+            String name, int page, int size
+    ) {
+        int pageIndex = Math.max(page - 1, 0);
+        PageRequest pageRequest = PageRequest.of(pageIndex, size, Sort.Direction.ASC, "name");
 
-        return list.stream()
-                .filter(category -> name == null || name.isBlank() || category.getName().toLowerCase().contains(name.toLowerCase()))
-                .map(category -> modelMapper.map(category, CategoryResponse.class))
-                .toList();
+        String searchName = StringUtils.hasText(name) ? name.toLowerCase() : null;
+        Page<Category> pageCategory = categoryRepository.listAll(searchName, pageRequest);
+
+        return pageCategory.getContent().stream().map(category ->  modelMapper.map(category, CategoryResponse.class)).toList();
     }
+
+//    public List<CategoryResponse> listAll(String name) {
+//        List<Category> list = categoryRepository.findAll();
+//
+//        return list.stream()
+//                .filter(category -> name == null || name.isBlank() || category.getName().toLowerCase().contains(name.toLowerCase()))
+//                .map(category -> modelMapper.map(category, CategoryResponse.class))
+//                .toList();
+//    }
 
     public CategoryPayload create(CategoryResquest req) {
 

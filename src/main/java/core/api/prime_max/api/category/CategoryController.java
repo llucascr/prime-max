@@ -3,7 +3,6 @@ package core.api.prime_max.api.category;
 import core.api.prime_max.dto.request.CategoryResquest;
 import core.api.prime_max.dto.response.category.CategoryPayload;
 import core.api.prime_max.dto.response.category.CategoryResponse;
-import core.api.prime_max.models.category.Category;
 import core.api.prime_max.services.category.CategoryServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,11 @@ public class CategoryController {
     private final CategoryServices categoryServices;
 
     @GetMapping(path = "/list")
-    public ResponseEntity<List<CategoryResponse>> list(@RequestParam(required = false) String name) {
-        return  ResponseEntity.status(HttpStatus.OK).body(categoryServices.listAll(name));
+    public ResponseEntity<List<CategoryResponse>> list(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "1", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int size) {
+        return  ResponseEntity.status(HttpStatus.OK).body(categoryServices.listAll(name, page, size));
     }
 
     @PostMapping(path = "/create")
