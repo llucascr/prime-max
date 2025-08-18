@@ -36,6 +36,14 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(categoryServices.findById(id));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<CategoryPayload> update(
+            @RequestParam Long id,
+            @RequestBody CategoryResquest req
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryServices.update(id, req));
+    }
+
     @DeleteMapping(path = "/delete")
     public ResponseEntity<CategoryPayload> delete(@RequestParam Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(categoryServices.delete(id));

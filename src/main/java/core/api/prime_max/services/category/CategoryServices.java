@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +61,28 @@ public class CategoryServices {
         Optional<Category> category = categoryRepository.findById(id);
 
         return modelMapper.map(category.orElseThrow(() -> new CategoryNotFound("Category with ID " + id + " not found")), CategoryResponse.class);
+    }
+
+    public CategoryPayload update(Long id, CategoryResquest req) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFound("Category with ID " + id + " not found"));
+
+
+        if (req.getName().isEmpty()) {
+            log.warn("Category name cannot be empty");
+            throw new CategoryNameIsEmpty("Category name cannot be empty");
+        } else if (categoryRepository.findByName(req.getName())
+                .filter(c -> !c.getId().equals(id))
+                .isPresent()) {
+            log.warn("Category name already exists");
+            throw new CategoryAlreadyExist("Category " + req.getName() + " already exists");
+        }
+
+        category.setName(req.getName());
+        category.setUpdatedAt(LocalDateTime.now());
+        CategoryResponse response = modelMapper.map(categoryRepository.save(category), CategoryResponse.class);
+
+        return new CategoryPayload("Category updated successfully", response);
     }
 
     public CategoryPayload delete(Long id) {
