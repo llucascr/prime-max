@@ -25,10 +25,11 @@ public class CategoryServices {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public List<CategoryResponse> listAll() {
+    public List<CategoryResponse> listAll(String name) {
         List<Category> list = categoryRepository.findAll();
 
         return list.stream()
+                .filter(category -> name == null || name.isBlank() || category.getName().toLowerCase().contains(name.toLowerCase()))
                 .map(category -> modelMapper.map(category, CategoryResponse.class))
                 .toList();
     }

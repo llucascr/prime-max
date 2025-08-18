@@ -22,8 +22,8 @@ public class CategoryController {
     private final CategoryServices categoryServices;
 
     @GetMapping(path = "/list")
-    public ResponseEntity<List<CategoryResponse>> list() {
-        return  ResponseEntity.status(HttpStatus.OK).body(categoryServices.listAll());
+    public ResponseEntity<List<CategoryResponse>> list(@RequestParam(required = false) String name) {
+        return  ResponseEntity.status(HttpStatus.OK).body(categoryServices.listAll(name));
     }
 
     @PostMapping(path = "/create")
