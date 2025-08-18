@@ -4,10 +4,12 @@ import core.api.prime_max.models.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query(value = "select id, name, created_at, updated_at from tb_category where name = :name", nativeQuery = true)
