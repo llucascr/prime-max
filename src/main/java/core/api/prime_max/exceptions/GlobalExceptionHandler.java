@@ -1,18 +1,18 @@
-package core.api.prime_max.configurations;
+package core.api.prime_max.exceptions;
 
-import core.api.prime_max.exceptions.ErrorResponse;
-import core.api.prime_max.exceptions.ApiExceptionInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /*@ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handlerApiException(RuntimeException contract) {
         if (contract instanceof ApiExceptionInterface apiEx) {
             HttpStatus status = apiEx.getHttpStatus();
@@ -29,9 +29,9 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }*/
+    }
 
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handlerGenericException(Exception ex) {
         ErrorResponse error = new ErrorResponse(
                 "INTERNAL_SERVER_ERROR",
@@ -39,6 +39,6 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }*/
+    }
 
 }
