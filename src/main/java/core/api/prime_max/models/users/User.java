@@ -1,11 +1,13 @@
 package core.api.prime_max.models.users;
 
 import core.api.prime_max.dto.enums.UserPlan;
+import core.api.prime_max.models.followers.Follower;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,5 +36,8 @@ public class User implements Serializable {
     private LocalDateTime updateAt;
 
     private Boolean active;
+
+    @OneToMany(mappedBy = "userId")
+    private List<Follower> followers;
 
 }
