@@ -1,6 +1,6 @@
 package core.api.prime_max.api.category;
 
-import core.api.prime_max.dto.request.CategoryResquest;
+import core.api.prime_max.dto.request.category.CategoryResquest;
 import core.api.prime_max.dto.response.category.CategoryPayload;
 import core.api.prime_max.dto.response.category.CategoryResponse;
 import core.api.prime_max.services.category.CategoryServices;

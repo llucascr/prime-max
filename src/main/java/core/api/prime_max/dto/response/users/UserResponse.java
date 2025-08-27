@@ -1,4 +1,4 @@
-package core.api.prime_max.dto.response;
+package core.api.prime_max.dto.response.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import core.api.prime_max.dto.enums.UserPlan;

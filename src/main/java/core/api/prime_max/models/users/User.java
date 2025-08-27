@@ -37,7 +37,7 @@ public class User implements Serializable {
 
     private Boolean active;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private List<Follower> followers;
 
 }

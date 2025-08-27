@@ -1,8 +1,8 @@
 package core.api.prime_max.services.users;
 
 import core.api.prime_max.dto.enums.UserPlan;
-import core.api.prime_max.dto.request.UserRequest;
-import core.api.prime_max.dto.response.UserResponse;
+import core.api.prime_max.dto.request.users.UserRequest;
+import core.api.prime_max.dto.response.users.UserResponse;
 import core.api.prime_max.exceptions.users.UserAlreadyExist;
 import core.api.prime_max.exceptions.users.UserAlreadyPremium;
 import core.api.prime_max.exceptions.users.UserNotFound;

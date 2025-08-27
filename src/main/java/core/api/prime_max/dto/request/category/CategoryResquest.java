@@ -1,4 +1,4 @@
-package core.api.prime_max.dto.request;
+package core.api.prime_max.dto.request.category;
 
 import lombok.*;
 

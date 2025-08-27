@@ -1,7 +1,7 @@
 package core.api.prime_max.api.users;
 
-import core.api.prime_max.dto.request.UserRequest;
-import core.api.prime_max.dto.response.UserResponse;
+import core.api.prime_max.dto.request.users.UserRequest;
+import core.api.prime_max.dto.response.users.UserResponse;
 import core.api.prime_max.services.users.UserServices;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
