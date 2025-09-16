@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ListFollowerResponse {
+public class SetFollowerResponse {
 
     private Long id;
     private String nameFollower;

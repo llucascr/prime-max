@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 @Entity
 @Table(name = "tb_followers")
@@ -19,6 +18,8 @@ public class Follower implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long followerId;
 
     private String nameFollower;
 
