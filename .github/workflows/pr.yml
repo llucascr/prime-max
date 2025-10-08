@@ -6,6 +6,10 @@ on:
        - ivan
        - luis
        - lucas
+  pull_request:
+    branches:
+      - features      
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
